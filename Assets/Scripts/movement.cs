@@ -68,6 +68,8 @@ public class TileHighlighting : MonoBehaviour
                 {
                     if (IsTileWalkable(neighborCell))
                     {
+                        Tile kek = tilemap.GetTile(neighborCell) as Tile;
+                        Debug.Log(kek.name + "\t" + neighborCell);
                         tilemap.SetTile(neighborCell, lightedTile);
                         availableTiles.Add(neighborCell);
                     }
@@ -91,7 +93,6 @@ public class TileHighlighting : MonoBehaviour
             Vector3 targetPosition = tilemap.GetCellCenterWorld(targetCell);
             if (canMove)
             {
-
                 player.transform.position = targetPosition;
                 ResetTileColors();
             }
@@ -118,7 +119,7 @@ public class TileHighlighting : MonoBehaviour
         //tilesDictionary.Clear();
         tilemap.RefreshAllTiles();
         availableTiles.Clear();
-        ReplaceTilemap();
+        //ReplaceTilemap();
         //test = gridToChange;
     }
 
