@@ -346,8 +346,7 @@ MonoBehaviour:
   originalTile: {fileID: 11400000, guid: 13b3ca978b2abf141860e8a642d8ce23, type: 2}
   lightedTile: {fileID: 11400000, guid: a25ffa6289731b548a9567d428af3e42, type: 2}
   player: {fileID: 1669882750}
-  gridToChange: {fileID: 8401862724235151365, guid: 9faa524ca1b7c2d488ab50bea1eb34a5, type: 3}
-  test: {fileID: 3950398813724233088}
+  prefab: {fileID: 3054732317527667245, guid: 9faa524ca1b7c2d488ab50bea1eb34a5, type: 3}
 --- !u!1 &1669882750
 GameObject:
   m_ObjectHideFlags: 0

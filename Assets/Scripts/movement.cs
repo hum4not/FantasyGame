@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
+using Unity.Loading;
 
 public class TileHighlighting : MonoBehaviour
 {
@@ -11,26 +12,21 @@ public class TileHighlighting : MonoBehaviour
     public TileBase originalTile;
     public TileBase lightedTile;
     public GameObject player;
-    public Grid gridToChange;
-    public Grid test;
+    public GameObject prefab;
 
     private List<Vector3Int> availableTiles = new List<Vector3Int>();
-    private Dictionary<TileBase, Sprite> tilesDictionary = new Dictionary<TileBase, Sprite>();
 
     private bool canMove = false;
 
     private void Start()
     {
         tilemap.color = Color.white;
-
-       // ResetTileColors();
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
@@ -74,26 +70,11 @@ public class TileHighlighting : MonoBehaviour
                     {
                         tilemap.SetTile(neighborCell, lightedTile);
                         availableTiles.Add(neighborCell);
-
-                        var tileBase = tilemap.GetTile(neighborCell);
-                        var tile = tilemap.GetTile(neighborCell) as Tile;
-                        tilesDictionary.Add(tileBase, tile.sprite);
                     }
                 }
             }
         }
         Debug.Log(availableTiles.Count);
-        if (availableTiles.Count > 0)
-        {
-            foreach (var position in availableTiles)
-            {
-                var gridPosition = tilemap.WorldToCell(position);
-               /// tilemap.SetTileFlags(gridPosition, TileFlags.None);
-                //var tile = tilemap.GetTile(gridPosition) as Tile;
-                //tile.color = Color.red;
-                tilemap.RefreshAllTiles();
-            }
-        }
     }
 
     bool IsTileWalkable(Vector3Int cell)
@@ -110,6 +91,7 @@ public class TileHighlighting : MonoBehaviour
             Vector3 targetPosition = tilemap.GetCellCenterWorld(targetCell);
             if (canMove)
             {
+
                 player.transform.position = targetPosition;
                 ResetTileColors();
             }
@@ -127,15 +109,26 @@ public class TileHighlighting : MonoBehaviour
             tilemap.SetTile(cell, originalTile);
         }
 
-        for (int i = 0; i < tilesDictionary.Count; i++)
-        {
-            var tile = tilesDictionary.ElementAt(i).Key as Tile;
-            tile.sprite = tilesDictionary.ElementAt(i).Value;
-        }
+        //for (int i = 0; i < tilesDictionary.Count; i++)
+        //{
+        //    var tile = tilesDictionary.ElementAt(i).Key as Tile;
+        //    tile.sprite = tilesDictionary.ElementAt(i).Value;
+        //}
 
-        tilesDictionary.Clear();
+        //tilesDictionary.Clear();
         tilemap.RefreshAllTiles();
         availableTiles.Clear();
+        ReplaceTilemap();
         //test = gridToChange;
     }
+
+    public void ReplaceTilemap()
+    {
+        // Удаляем старый Tilemap
+        Destroy(tilemap);
+
+        // Создаем новый Tilemap из префаба
+        Instantiate(prefab, transform);
+    }
+
 }
