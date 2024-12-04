@@ -57,7 +57,7 @@ public class TileHighlighting : MonoBehaviour
         Vector3Int playerCell = tilemap.WorldToCell(player.transform.position);
 
         // проверка прилигающих 
-        for (int dx = -1; dx <= 1; dx++)
+        for (int dx = -1; dx <= 0; dx++)
         {
             for (int dy = -1; dy <= 1; dy++)
             {
@@ -69,13 +69,17 @@ public class TileHighlighting : MonoBehaviour
                     if (IsTileWalkable(neighborCell))
                     {
                         Tile kek = tilemap.GetTile(neighborCell) as Tile;
-                        Debug.Log(kek.name + "\t" + neighborCell);
+                        Debug.Log(kek.name + "\t" + neighborCell + "\t" + playerCell);
                         tilemap.SetTile(neighborCell, lightedTile);
                         availableTiles.Add(neighborCell);
                     }
                 }
             }
+
         }
+        Vector3Int fix = new Vector3Int(playerCell.x + 1, playerCell.y, 0);
+        tilemap.SetTile(fix, lightedTile);
+        availableTiles.Add(fix);
         Debug.Log(availableTiles.Count);
     }
 
