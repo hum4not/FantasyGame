@@ -14,12 +14,11 @@ public class TileHighlighting : MonoBehaviour
     public TileBase lightedTile;
     public GameObject player;
     public GameObject prefab;
+    public NPC gay;
 
     private List<Vector3Int> availableTiles = new List<Vector3Int>();
 
     private bool canMove = false;
-
-
 
     private void Start()
     {
@@ -116,9 +115,10 @@ public class TileHighlighting : MonoBehaviour
             if (canMove)
             {
                 player.transform.position = targetPosition;
+                gay.move();
                 ResetTileColors();
-
             }
+
         }
         else
         {
