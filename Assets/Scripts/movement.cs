@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 using Unity.Loading;
+using UnityEngine.Rendering;
 
 public class TileHighlighting : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class TileHighlighting : MonoBehaviour
     private List<Vector3Int> availableTiles = new List<Vector3Int>();
 
     private bool canMove = false;
+
+
 
     private void Start()
     {
@@ -42,7 +45,7 @@ public class TileHighlighting : MonoBehaviour
             else/* if (availableTiles.Contains(tilemap.WorldToCell(mousePos)))*/
             {
                 Debug.Log("Moving player");
-                MovePlayer(mousePos);
+                MovePlayer(new Vector3Int((int)mousePos.x, (int)mousePos.y, (int)mousePos.z));
 
             }
             Debug.Log(availableTiles.Contains(tilemap.WorldToCell(mousePos)));
@@ -54,33 +57,48 @@ public class TileHighlighting : MonoBehaviour
     {
         ResetTileColors();
 
+
         Vector3Int playerCell = tilemap.WorldToCell(player.transform.position);
+        Debug.LogError(playerCell);
 
-        // проверка прилигающих 
-        for (int dx = -1; dx <= 0; dx++)
+        Vector3Int[] positions = new Vector3Int[6]
         {
-            for (int dy = -1; dy <= 1; dy++)
-            {
-                if (dx == 0 && dy == 0) continue; // пропускать активную €чейку
+            new Vector3Int(playerCell.x - 1, playerCell.y, 0),
+            new Vector3Int(playerCell.x + 1, playerCell.y, 0),
+            new Vector3Int(playerCell.x, playerCell.y + 1, 0),
+            new Vector3Int(playerCell.x - 1, playerCell.y + 1, 0),
+            new Vector3Int(playerCell.x, playerCell.y - 1, 0),
+            new Vector3Int(playerCell.x - 1, playerCell.y - 1, 0)
+        };
 
-                Vector3Int neighborCell = playerCell + new Vector3Int(dx, dy, 0);
-                if (tilemap.HasTile(neighborCell))
+
+        for (int i  = 0; i < 5; i++)
+        {
+            Debug.LogError(positions[i]);
+        }
+
+        foreach (Vector3Int position in positions)
+        {
+            //if (position.x == 0 && position.y == 0) continue; // пропускать активную €чейку
+            Debug.Log(position);
+            if (tilemap.HasTile(position))
+            {
+                Debug.Log("meow meow");
+                if (IsTileWalkable(position))
                 {
-                    if (IsTileWalkable(neighborCell))
-                    {
-                        Tile kek = tilemap.GetTile(neighborCell) as Tile;
-                        Debug.Log(kek.name + "\t" + neighborCell + "\t" + playerCell);
-                        tilemap.SetTile(neighborCell, lightedTile);
-                        availableTiles.Add(neighborCell);
-                    }
+                    Debug.Log("guf guf");
+                    Tile kek = tilemap.GetTile(position) as Tile;
+                    availableTiles.Add(position);
+                    Debug.Log(kek.name + "\t" + position + "\t" + playerCell);
+                    tilemap.SetTile(position, lightedTile);
                 }
             }
-
         }
-        Vector3Int fix = new Vector3Int(playerCell.x + 1, playerCell.y, 0);
-        tilemap.SetTile(fix, lightedTile);
-        availableTiles.Add(fix);
-        Debug.Log(availableTiles.Count);
+
+        //Vector3Int fix = new Vector3Int(playerCell.x + 1, playerCell.y, 0);
+        //tilemap.SetTile(fix, lightedTile);
+        //availableTiles.Add(fix);
+        //Debug.Log(availableTiles.Count);
     }
 
     bool IsTileWalkable(Vector3Int cell)
@@ -89,7 +107,7 @@ public class TileHighlighting : MonoBehaviour
         return true;
     }
 
-    void MovePlayer(Vector3 targetWorldPosition)
+    void MovePlayer(Vector3Int targetWorldPosition)
     {
         if (availableTiles.Contains(tilemap.WorldToCell(targetWorldPosition)))
         {
@@ -99,11 +117,12 @@ public class TileHighlighting : MonoBehaviour
             {
                 player.transform.position = targetPosition;
                 ResetTileColors();
+
             }
         }
         else
         {
-            throw new Exception();
+            Debug.LogError($"Target world position {targetWorldPosition}");
         }
     }
 
