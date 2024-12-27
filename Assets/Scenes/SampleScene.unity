@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -322,6 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1461420710}
   - component: {fileID: 1461420711}
+  - component: {fileID: 1461420712}
   m_Layer: 0
   m_Name: MOVEMENT
   m_TagString: Untagged
@@ -351,7 +352,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461420709}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a287bcebbf4b6a4b886c04db90d3cce, type: 3}
   m_Name: 
@@ -362,6 +363,29 @@ MonoBehaviour:
   player: {fileID: 1669882750}
   prefab: {fileID: 3054732317527667245, guid: 9faa524ca1b7c2d488ab50bea1eb34a5, type: 3}
   gay: {fileID: 1105621432}
+--- !u!114 &1461420712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461420709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85228fa7f93b0a044bee7d2fb0405709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 8730667639907864652}
+  player: {fileID: 1669882752}
+  moveSpeed: 5
+  tileSize: 1
+  maxPathLength: 5
+  lineRenderer: {fileID: 0}
+  validPathColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidPathColor: {r: 1, g: 0, b: 0, a: 1}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1621085054
 GameObject:
   m_ObjectHideFlags: 0
